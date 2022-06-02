@@ -2,37 +2,58 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#calculator {
+  width: 80%;
+  margin: 2% 10%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+#display {
+  height: 30vw;
+  background-color: black;
   color: white;
+  display: grid;
+  text-align: right;
 }
 
-.App-link {
-  color: #61dafb;
+#displayCalculation {
+  background-color: black;
+  color: white;
+  border: black;
+  text-align: right;
+  font-size: 3vw;
+  position: relative;
+  left: 4vw;
+  top: 4vw;
+  width: 89%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#displayResult {
+  font-size: 8vw;
+  position: relative;
+  right: 4vw;
+  color: #BB86FC;
+}
+
+#displayText {
+  text-align: right;
+}
+
+#buttons {
+  background-color: blue;
+  height: 80vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-areas:
+  "clear clear clear divide"
+  "seven eight nine multiply"
+  "four five six subtract"
+  "one two three add"
+  "zero zero decimal equals";
+}
+
+.button {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
 }
