@@ -1,33 +1,54 @@
 import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { create, all } from 'mathjs';
+
+const config = { };
+const math = create(all, config);
 
 const OPERATOR = "operator";
 
 function App() {
-  const [ operation, setOperation ] = useState('');
+  const [ operation, setOperation ] = useState('0');
   const [ result, setResult ] = useState(0);
-  const [ numberInput, setNumberInput ] = useState('');
+  const [ numberInput, setNumberInput ] = useState('0');
+  const [ operatorInput, setOperatorInput ] = useState('');
 
   const handleOperation = (operationInput, type = "numberModifier") => {
     
-    console.log("handling operation");
-    if (operationInput === '0' && operation === "0") {
-      console.log("too many zeros") //doesn't work for 0s??
-    } else {
-      console.log("updating state");
-      setOperation(operation.concat(operationInput));
+    console.log("handling operation, numberInput: " + numberInput + ", operation: "+ operation);
+    //multiple zeros or multiple periods
+    if ((operationInput === 0 && numberInput === "0") || (operationInput === "." && numberInput.includes("."))) {
+      console.log("too many zeros")
+      return;
     }
-    
+
+    if (operation === "0") {
+      setNumberInput(operationInput.toString());
+      setOperation(operationInput.toString());
+      return;
+    }
+
+    console.log("updating state");
+    if (type !== OPERATOR || (operationInput === "-" && numberInput === "")) {
+      console.log("numbermodifier")
+      setNumberInput(numberInput.concat(operationInput));
+    } else {
+      console.log("operator")
+      setNumberInput('');
+    }
+
+    setOperation(operation.concat(operationInput));
   }
 
   const handleEqual = () => {
-
+    setResult(math.evaluate(operation.replace('x', '*')));
+    setOperation((math.evaluate(operation.replace('x', '*'))).toString());
   }
 
   return (
     <div id="calculator">
-        <div id="display">
-          <p id="displayCalculation">{operation}</p>
+        <div id="displayContainer">
+          <p id="display">{operation}</p>
           <p id="displayResult">{result}</p>
         </div>
     
@@ -44,7 +65,7 @@ function App() {
           <button id="nine" style={{ gridArea: 'nine' }} className="button" onClick={() => handleOperation(9)}>9</button>
           <button id="decimal" style={{ gridArea: 'decimal' }} className="button" onClick={() => handleOperation(".")}>.</button>
         
-          <button id="clear" style={{ gridArea: 'clear' }} className="button" onClick={() => setOperation('')}>AC</button>
+          <button id="clear" style={{ gridArea: 'clear' }} className="button" onClick={() => {setOperation('0'); setNumberInput('0')}}>AC</button>
 
           <button id="add" style={{ gridArea: 'add' }} className="button" onClick={() => handleOperation("+", OPERATOR)}>+</button>
           <button id="subtract" style={{ gridArea: 'subtract' }} className="button" onClick={() => handleOperation("-", OPERATOR)}>-</button>
@@ -54,7 +75,7 @@ function App() {
        
         </div>
         
-        <p>{"Debuggin || result " + result + " || operation: " + operation + "||"}</p>
+        <p>{"Debuggin || numberInput: " + numberInput + " || operatorInput: " + operatorInput}</p>
   
       </div>
   );
