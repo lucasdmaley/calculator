@@ -16,7 +16,7 @@ function App() {
   const handleOperation = (operationInput, type = "numberModifier") => {
     
     console.log("handling operation, numberInput: " + numberInput + ", operation: "+ operation);
-
+    //
     if (operationInput === "-") {
       if (numberInput === "0") {
         handleNumber(operationInput);
