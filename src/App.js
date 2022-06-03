@@ -16,33 +16,59 @@ function App() {
   const handleOperation = (operationInput, type = "numberModifier") => {
     
     console.log("handling operation, numberInput: " + numberInput + ", operation: "+ operation);
+
+    if (operationInput === "-") {
+      if (numberInput === "0") {
+        handleNumber(operationInput);
+      } else {
+        handleOperator(operationInput);
+      }
+      return;
+    }
+
+    if (type === OPERATOR) {
+      handleOperator(operationInput);
+    } else {
+      handleNumber(operationInput);
+    }
+  }
+
+  const handleNumber = (number) => {
     //multiple zeros or multiple periods
-    if ((operationInput === 0 && numberInput === "0") || (operationInput === "." && numberInput.includes("."))) {
+    if ((number === 0 && numberInput === "0") || (number === "." && numberInput.includes("."))) {
       console.log("too many zeros")
       return;
     }
 
     if (operation === "0") {
-      setNumberInput(operationInput.toString());
-      setOperation(operationInput.toString());
+      setNumberInput(number.toString());
+      setOperation(number.toString());
       return;
     }
 
-    console.log("updating state");
-    if (type !== OPERATOR || (operationInput === "-" && numberInput === "")) {
-      console.log("numbermodifier")
-      setNumberInput(numberInput.concat(operationInput));
-    } else {
-      console.log("operator")
-      setNumberInput('');
+    setNumberInput(numberInput.concat(number));
+    if (number !== "-") setOperatorInput('')
+    setOperation(operation.concat(number));
+  }
+
+  const handleOperator = (operator) => {
+    console.log("operator")
+
+    if (operatorInput !== '') {
+      setOperatorInput(operator);
+      setOperation(operation.replace(/\D+$/, operator));
+      return;
     }
 
-    setOperation(operation.concat(operationInput));
+    setNumberInput('0');
+    setOperatorInput(operator)
+    setOperation(operation.concat(operator));
   }
 
   const handleEqual = () => {
-    setResult(math.evaluate(operation.replace('x', '*')));
-    setOperation((math.evaluate(operation.replace('x', '*'))).toString());
+    let tempResult = math.round(math.evaluate(operation.replace('x', '*')), 6);
+    setResult(tempResult);
+    setOperation(tempResult.toString());
   }
 
   return (
@@ -65,7 +91,7 @@ function App() {
           <button id="nine" style={{ gridArea: 'nine' }} className="button" onClick={() => handleOperation(9)}>9</button>
           <button id="decimal" style={{ gridArea: 'decimal' }} className="button" onClick={() => handleOperation(".")}>.</button>
         
-          <button id="clear" style={{ gridArea: 'clear' }} className="button" onClick={() => {setOperation('0'); setNumberInput('0')}}>AC</button>
+          <button id="clear" style={{ gridArea: 'clear' }} className="button" onClick={() => {setOperation('0'); setNumberInput('0'); setOperatorInput('')}}>AC</button>
 
           <button id="add" style={{ gridArea: 'add' }} className="button" onClick={() => handleOperation("+", OPERATOR)}>+</button>
           <button id="subtract" style={{ gridArea: 'subtract' }} className="button" onClick={() => handleOperation("-", OPERATOR)}>-</button>
