@@ -40,7 +40,7 @@ function App() {
       return;
     }
 
-    if (operation === "0") {
+    if (operation === "0" && number !== ".") {
       setNumberInput(number.toString());
       setOperation(number.toString());
       return;
@@ -60,7 +60,7 @@ function App() {
       return;
     }
 
-    setNumberInput('0');
+    setNumberInput('');
     setOperatorInput(operator)
     setOperation(operation.concat(operator));
   }
