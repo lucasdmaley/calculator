@@ -18,7 +18,7 @@ function App() {
     console.log("handling operation, numberInput: " + numberInput + ", operation: "+ operation);
     //
     if (operationInput === "-") {
-      if (numberInput === "0") {
+      if (numberInput === "0" || numberInput === "") {
         handleNumber(operationInput);
       } else {
         handleOperator(operationInput);
