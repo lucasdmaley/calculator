@@ -15,8 +15,6 @@ function App() {
 
   const handleOperation = (operationInput, type = "numberModifier") => {
     
-    console.log("handling operation, numberInput: " + numberInput + ", operation: "+ operation);
-    //
     if (operationInput === "-") {
       if (numberInput === "0" || numberInput === "") {
         handleNumber(operationInput);
@@ -36,7 +34,6 @@ function App() {
   const handleNumber = (number) => {
     //multiple zeros or multiple periods
     if ((number === 0 && numberInput === "0") || (number === "." && numberInput.includes("."))) {
-      console.log("too many zeros")
       return;
     }
 
@@ -52,8 +49,6 @@ function App() {
   }
 
   const handleOperator = (operator) => {
-    console.log("operator")
-
     if (operatorInput !== '') {
       setOperatorInput(operator);
       setOperation(operation.replace(/\D+$/, operator));
@@ -100,9 +95,6 @@ function App() {
           <button id="equals" style={{ gridArea: 'equals' }} className="button" onClick={() => handleEqual()}>=</button>
        
         </div>
-        
-        <p>{"Debuggin || numberInput: " + numberInput + " || operatorInput: " + operatorInput}</p>
-  
       </div>
   );
 }
